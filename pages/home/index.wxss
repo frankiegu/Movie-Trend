@@ -1,6 +1,10 @@
 /* pages/home/index.wxss */
  @import "/pages/movie-grid/movie-grid";
  
+.first-session-page {
+  margin-top: 100rpx;
+}
+
 .session-page {
   background: #fff;
   border-width: 1rpx 0;

@@ -10,10 +10,12 @@
   line-height: 50rpx;
   text-align: center;
   font-size: 28rpx;
+  margin-right: 60rpx;
 }
 
 .search-list {
   background: #fff;
+  margin-top: 102rpx;
 }
 
 .movie-wrapper {

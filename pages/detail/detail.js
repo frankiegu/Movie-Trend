@@ -112,5 +112,16 @@ Page({
     wx.showModal({
       title: '来评分吧'
     })
+  },
+  previewImage (e) {
+    wx.previewImage({
+      urls: [e.target.dataset.src],
+    })
+  },
+  movetoActor(e) {
+    var actorId = e.currentTarget.dataset.actorId
+    wx.navigateTo({
+      url: '../actor/actor?actorId=' + actorId,
+    })
   }
 })

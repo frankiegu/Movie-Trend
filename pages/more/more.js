@@ -8,8 +8,10 @@ Page({
   data: {
     showInTheaters: false,
     showCommingsoon: false,
+    showTop250: false,
     intheaters: {},
-    commingsoon: {}
+    commingsoon: {},
+    top250: {}
   },
 
   /**
@@ -18,9 +20,11 @@ Page({
   onLoad: function (options) {
     var typeId = options.typeId
     if (typeId == 'intheaters') {
-      this.setData({showInTheaters: true, showCommingSoon: false})
+      this.setData({ showInTheaters: true, showCommingSoon: false, showTop250: false })
+    } else if (typeId == 'commingsoon') {
+      this.setData({ showInTheaters: false, showCommingSoon: true, showTop250: false })
     } else {
-      this.setData({ showInTheaters: false, showCommingSoon: true })      
+      this.setData({ showInTheaters: false, showCommingSoon: false, showTop250: true })
     }
     this.getMovieListData(typeId)
   },
@@ -29,56 +33,58 @@ Page({
    * 生命周期函数--监听页面初次渲染完成
    */
   onReady: function () {
-  
+
   },
 
   /**
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-  
+
   },
 
   /**
    * 生命周期函数--监听页面隐藏
    */
   onHide: function () {
-  
+
   },
 
   /**
    * 生命周期函数--监听页面卸载
    */
   onUnload: function () {
-  
+
   },
 
   /**
    * 页面相关事件处理函数--监听用户下拉动作
    */
   onPullDownRefresh: function () {
-  
+
   },
 
   /**
    * 页面上拉触底事件的处理函数
    */
   onReachBottom: function () {
-  
+
   },
 
   /**
    * 用户点击右上角分享
    */
   onShareAppMessage: function () {
-  
+
   },
-  getMovieListData (typeId) {
+  getMovieListData(typeId) {
     let url
     if (typeId == 'intheaters') {
       url = app.globalData.doubanBase + app.globalData.inTheatersURL
-    } else {
+    } else if (typeId == 'commingsoon') {
       url = app.globalData.doubanBase + app.globalData.commingSoonURL
+    } else {
+      url = app.globalData.doubanBase + app.globalData.top250URL
     }
     var offset = this.data[typeId].offset || 0
     var total = this.data[typeId].total || 999
@@ -92,7 +98,7 @@ Page({
     })
     wx.request({
       url,
-      header: {'content-type': 'json'},
+      header: { 'content-type': 'json' },
       data: {
         start: offset,
         count: 5
@@ -105,7 +111,7 @@ Page({
         offset += subjects.length
         subjects.forEach(item => {
           let allCasts = item.casts.map(i => i.name).join(' / ')
-          let allDirs = item.directors.map(i=>i.name).join(' / ')
+          let allDirs = item.directors.map(i => i.name).join(' / ')
           let allGenres = item.genres.join(' / ')
           let movie = {
             ...item,
@@ -116,31 +122,35 @@ Page({
           }
           movies.push(movie)
         })
-        this.setData({[typeId]: {offset, total, movies}})
+        this.setData({ [typeId]: { offset, total, movies } })
       },
       fail: err => console.log(err),
-      complete () {
+      complete() {
         wx.hideToast()
       }
     })
   },
-  selectTab (e) {
+  selectTab(e) {
     var tabId = e.currentTarget.dataset.tabId
     if (tabId == 'intheaters') {
-      this.setData({ showInTheaters: true, showCommingSoon: false })
+      this.setData({ showInTheaters: true, showCommingSoon: false, showTop250:false})
+    } else if (tabId == 'commingsoon') {
+      this.setData({ showInTheaters: false, showCommingSoon: true ,showTop250:false})
     } else {
-      this.setData({ showInTheaters: false, showCommingSoon: true })
+      this.setData({ showInTheaters: false, showCommingSoon: false, showTop250: true })
     }
     if (!this.data[tabId].movies) {
       this.getMovieListData(tabId)
     }
   },
-  loadMore () {
+  loadMore() {
     var typeId
-    if(this.data.showInTheaters) {
+    if (this.data.showInTheaters) {
       typeId = 'intheaters'
-    } else {
+    } else if (this.data.showCommingSoon) {
       typeId = 'commingsoon'
+    } else {
+      typeId = 'top250'
     }
     this.getMovieListData(typeId)
   },

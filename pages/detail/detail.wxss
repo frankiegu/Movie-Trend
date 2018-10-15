@@ -104,7 +104,7 @@
   font-weight: 600;
 }
 .desc-content {
-  text-indent: 56rpx;
+  /* text-indent: 56rpx; */
   font-size: 28rpx;
   color: gray;
 

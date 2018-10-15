@@ -2,7 +2,7 @@
 <import src="/pages/rating-star/rating-star.wxml" />
 <view class='container'>
   <view class='detail-header'>
-    <image class='header-poster' src="{{movieData.images.large}}"></image>
+    <image class='header-poster' src="{{movieData.images.large}}" bindtap="previewImage" data-src="{{movieData.images.large}}"></image>
   </view>
   <view class='detail-content'>
     <view class='detail-info'>
@@ -31,7 +31,7 @@
       <text class='desc-title'>影人</text>
       <scroll-view scroll-x class='actor-scroll'>
         <view wx:for="{{movieData.casts}}" wx:key="item" class='actor-box'>
-          <image class='actor-image' src='{{item.avatars.small}}'></image>
+          <image class='actor-image' src='{{item.avatars.small}}' data-actor-id='{{item.id}}' bindtap='movetoActor'></image>
           <view class='actor-name'>{{item.name}}</view>
         </view>
       </scroll-view>

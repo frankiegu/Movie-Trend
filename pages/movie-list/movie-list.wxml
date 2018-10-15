@@ -18,6 +18,9 @@
       <block wx:if="{{typeId == 'commingsoon'}}">
         <text class='wish-btn' bindtap="want">想看</text>
       </block>
+      <block wx:if="{{typeId == 'top250'}}">
+        <text class='wish-btn' bindtap="want">想看</text>
+      </block>
     </view>
   </view>
 </template>

@@ -7,17 +7,20 @@ Page({
    */
   data: {
     inTheaters: [],
-    commingSoon: []
+    commingSoon: [],
+    top250: []
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    var inTheatersURL = app.globalData.doubanBase + app.globalData.inTheatersURL + '?start=0&&count=10'
-    var commingSoonURL = app.globalData.doubanBase + app.globalData.commingSoonURL + '?start=0&&count=10'
+    var inTheatersURL = app.globalData.doubanBase + app.globalData.inTheatersURL + '?start=0&&count=10';
+    var commingSoonURL = app.globalData.doubanBase + app.globalData.commingSoonURL + '?start=0&&count=10';
+    var top250URL = app.globalData.doubanBase + app.globalData.top250URL + '?start=0&&count=10';
     this.getMovieListData(inTheatersURL, 'inTheaters')
     this.getMovieListData(commingSoonURL, 'commingSoon')
+    this.getMovieListData(top250URL,'top250')
   },
 
   /**
@@ -84,6 +87,7 @@ Page({
       header: {'content-type': 'json'},
       success: res => {
         this.setData({[_type]: res.data.subjects})
+        // console.log(res.data)
       },
       fail: err => console.log(err),
       complete () {
